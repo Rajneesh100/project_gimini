@@ -196,8 +196,7 @@ use Postman or any equivalnt tools to do crud operations
         "gemini",
         "niti"
     ]
-}
-   
+  }   
   ```
 
 
