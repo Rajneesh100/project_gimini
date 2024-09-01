@@ -6,7 +6,7 @@ This is a totally only backend end points, as of now it has pretty basic Apis :
 
 frontend development is undergoing and as weare storing all conversation data so we will also bring a  
 * get_chat_history api 
-which will basically pull all the pass chat data for any user and also ww will incorporate a person to person and froup conversation and also ai in group chats together
+which will basically pull all the pass chat data for any user and also we will incorporate a person to person and group conversation and also ai in group chats together
 
 use Postman or any equivalnt tools to do crud operations
 
