@@ -1,9 +1,15 @@
 This is a totally only backend end points, as of now it has pretty basic Apis : 
+```
 /login ,
 /signup,
 /profile, 
-/chat
+/chat_with_mira,
+/chat_history,
+/get_connections,
+/send,
+/get_my_chat_with,
 
+```
 frontend development is undergoing and as weare storing all conversation data so we will also incorporate a person to person and group conversation and also ai in group chats together
 
 use Postman or any equivalnt tools to do crud operations
@@ -70,7 +76,7 @@ use Postman or any equivalnt tools to do crud operations
   so now u have a new jwt token use this token in Authorization section of postman. find `Bearer token` and paste this token their
   now less go for chatting with ai
   
-* https://project-gimini-1.onrender.com/chat
+* https://project-gimini-1.onrender.com/chat_with_mira
   This is a get method.
   it uses jwt token to authenticate the user before sending query to ai model.
   first find `Bearer token` in Authorization section of postman and paste this token their.
@@ -112,9 +118,11 @@ use Postman or any equivalnt tools to do crud operations
 
   
 * https://project-gimini-1.onrender.com/chat_history
+
   this is a Get method
   this is again using jwt token authentication so it's same as /profile end point.
-  you need to put your jwt token in the Bearer token in Postman
+  you need to put your jwt token in the Bearer token in Postman.
+  this will send all the chat data related to uou either you sent it or you recieved it.
   you will see your past chat data with ai like this below:
   ```
   {
@@ -173,3 +181,100 @@ use Postman or any equivalnt tools to do crud operations
   
   ```
   
+
+  
+* https://project-gimini-1.onrender.com/get_connections
+
+  this is a Get method
+  this is again using jwt token authentication so it's same as /profile end point.
+  you need to put your jwt token in the Bearer token in Postman.
+  this will send all the user list which are related to you means you two had previous chat history (a person can send himseld a message also which will create a self message like we do in `WhatsApp`)
+  this is the response format you will get :
+  ```
+  {
+    "response": [
+        "gemini",
+        "niti"
+    ]
+}
+   
+  ```
+
+
+*  https://project-gimini-1.onrender.com/send
+   
+   this is a Post method 
+   it is used to send data to any indivisual person :
+   this is the body format for post request:
+
+
+   ```
+   {
+        "send_to" :"niti",
+        "message_txt":"let's meet"
+   } 
+
+   ```
+   here in send_to field it should be `USERNAME` specifically other wise you will get `ERROR`
+
+   and this the response you will get :
+   ```
+   {
+    "savedMessage": {
+        "text": "let's meet",
+        "sender": "Rajni",
+        "reciever": "niti",
+        "timestamp": "2024-09-01T20:55:01.526Z",
+        "_id": "66d4d4a5c3614f959c9ebeba",
+        "__v": 0
+    },
+    "status": "message saved in db"
+    }
+
+   ```
+
+
+*  https://project-gimini-1.onrender.com/get_my_chat_with
+   
+   This is a Get Method
+   this api is specifically send the chat data of a pair it's purpose is to use when we will open a tab with any person we will get the past data with that person using this api (As of now it's very simple and we haven't considerd a large past history chats we will be sending to client later we will target this)
+
+   this is the request body format :
+   ```
+   {
+   "selected_user":"niti"
+   }
+   ```
+
+   this is the response you will get:
+   ```
+   {
+    "response": [
+        {
+            "_id": "66d4d2963e0396e4f02c54e7",
+            "text": "HI niti how's going..",
+            "sender": "Rajni",
+            "reciever": "niti",
+            "timestamp": "2024-09-01T20:46:14.103Z",
+            "__v": 0
+        }
+        {
+            "_id": "66d4d4a5c3614f959c9ebeba",
+            "text": "let's meet",
+            "sender": "Rajni",
+            "reciever": "niti",
+            "timestamp": "2024-09-01T20:55:01.526Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d4dd0a624db20cb1fea513",
+            "text": "HI Rajni let's meet in eve",
+            "sender": "niti",
+            "reciever": "Rajni",
+            "timestamp": "2024-09-01T21:30:50.037Z",
+            "__v": 0
+        }
+    ]
+   }
+   ```
+

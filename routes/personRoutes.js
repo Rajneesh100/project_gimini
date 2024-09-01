@@ -15,7 +15,7 @@ router.post('/signup', async(req,res)=>{
         const payload = req.body;
         const newUser= new Person(payload)
         const response = await newUser.save();
-        console.log(response)
+        // console.log(response)
         const userdata ={
             id:response.id,
             username: response.username,
@@ -37,7 +37,7 @@ router.post('/login', async(req,res)=>{
     try{
         const payload = req.body;
         const user = await Person.findOne({username:payload.username})
-        console.log(payload);
+        // console.log(payload);
         if(!user||!(await user.comparePassword(payload.password))){
             return res.status(401).json({error:"Invalid Username or Password :("})
         }
@@ -62,7 +62,7 @@ router.post('/login', async(req,res)=>{
 router.get('/profile', jwtAuthMiddleWare,async function(req,res){
     try{
         const userData =req.jwtPayload.userData;
-        console.log("userData :",userData);
+        // console.log("userData :",userData);
         const userId=userData.id;
         const user= await Person.findById(userId)
         res.status(200).json(user)

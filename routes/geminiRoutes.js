@@ -26,7 +26,7 @@ const generate = async (prompt) => {
 
         // const prompt = "how burnauli principle works on mac1 ? explaim with diagram";
         const result = await model.generateContent(prompt);
-        console.log(result.response.text().substring(0, 1000));
+        // console.log(result.response.text());
         // console.log(result.response);
 
         return result.response.text()
@@ -42,20 +42,21 @@ const generate = async (prompt) => {
 // generate(prompt);
 
 
-router.get('/chat',jwtAuthMiddleWare, async(req,res)=>{
+router.get('/chat_with_mira',jwtAuthMiddleWare, async(req,res)=>{
     try{
         const userdata=req.jwtPayload.userData
-        console.log("userdata in chat:", userdata);
+        // console.log("userdata in chat:", userdata);
         const userId= userdata.id;
         const user =await Person.findById(userId)
         if(!user) {
             return res.status(401).json({error:"invalid user"})
         }
+        const username= userdata.username;
         
         const prompt =req.body.query;
         const recieved ={
             text:prompt,
-            sender:userId,
+            sender:username,
             reciever:"gemini",
             timestamp: new Date()
         }
@@ -67,7 +68,7 @@ router.get('/chat',jwtAuthMiddleWare, async(req,res)=>{
         const  sent ={
             text:response,
             sender:"gemini",
-            reciever:userId,
+            reciever:username,
             timestamp: new Date()
         }
 
