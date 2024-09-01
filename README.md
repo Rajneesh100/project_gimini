@@ -4,9 +4,7 @@ This is a totally only backend end points, as of now it has pretty basic Apis :
 /profile, 
 /chat
 
-frontend development is undergoing and as weare storing all conversation data so we will also bring a  
-* get_chat_history api 
-which will basically pull all the pass chat data for any user and also we will incorporate a person to person and group conversation and also ai in group chats together
+frontend development is undergoing and as weare storing all conversation data so we will also incorporate a person to person and group conversation and also ai in group chats together
 
 use Postman or any equivalnt tools to do crud operations
 
@@ -108,7 +106,70 @@ use Postman or any equivalnt tools to do crud operations
   }
   
   ```
+ 
+  But password even you won't be able to see we will also bring *A change password and a securityquestion functionality soon* 
+
+
   
+* https://project-gimini-1.onrender.com/chat_history
+  this is a Get method
+  this is again using jwt token authentication so it's same as /profile end point.
+  you need to put your jwt token in the Bearer token in Postman
+  you will see your past chat data with ai like this below:
+  ```
+  {
+    
+    "response": [
+        {
+            "_id": "66d0e8c9401db9c3044ce79d",
+            "text": "how fast the andromida galaxy is moving",
+            "sender": "66d0d196942fca76a9457fc5",
+            "reciever": "gemini",
+            "timestamp": "2024-08-29T21:31:53.050Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d0e8cb401db9c3044ce79f",
+            "text": "The Andromeda Galaxy (M31) is moving towards the Milky Way at a speed of approximately **110 kilometers per second (68 miles per second)**.\n\nThis might sound fast, but it's important to consider the vast distances involved.  Even at this speed, it will take about **4 billion years** for the two galaxies to collide. \n\nIt's also worth noting that the speed is relative.  From our perspective, Andromeda is moving towards us, but from Andromeda's perspective, we are moving towards them. Both galaxies are moving within the larger gravitational field of the Local Group, a cluster of galaxies that includes both the Milky Way and Andromeda. \n",
+            "sender": "gemini",
+            "reciever": "66d0d196942fca76a9457fc5",
+            "timestamp": "2024-08-29T21:31:55.907Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d0e96f492d35439400eb5e",
+            "text": "Cool",
+            "sender": "66d0d196942fca76a9457fc5",
+            "reciever": "gemini",
+            "timestamp": "2024-08-29T21:34:39.875Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d0e972492d35439400eb60",
+            "text": "I'm glad you think so! \n\nWhat's cool about?  Tell me more so I can understand what you're referring to! \n",
+            "sender": "gemini",
+            "reciever": "66d0d196942fca76a9457fc5",
+            "timestamp": "2024-08-29T21:34:42.935Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d0e997492d35439400eb63",
+            "text": "Do u remeber my conversations? like what i just said before?",
+            "sender": "66d0d196942fca76a9457fc5",
+            "reciever": "gemini",
+            "timestamp": "2024-08-29T21:35:19.755Z",
+            "__v": 0
+        },
+        {
+            "_id": "66d0e99a492d35439400eb65",
+            "text": "As an AI, I don't have a memory of past conversations. Each time we interact, it's like a fresh start. If you'd like me to remember information, you can tell me to \"remember\" it, and I can store it for later use. However, I'll forget it if our conversation ends. \n\nIs there anything specific you'd like me to remember? 😊 \n",
+            "sender": "gemini",
+            "reciever": "66d0d196942fca76a9457fc5",
+            "timestamp": "2024-08-29T21:35:22.439Z",
+            "__v": 0
+        }
+    ]
+  }
   
-  But password even you won't be able to see we will also bring a change password and a securityquestion functionality soon 
+  ```
   

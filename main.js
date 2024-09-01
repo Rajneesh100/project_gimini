@@ -20,5 +20,7 @@ app.use('/', geminiRoutes)
 const personRoutes= require('./routes/personRoutes')
 app.use('/', personRoutes)
 
+const chatRoutes= require('./routes/chatroutes')
+app.use('/', chatRoutes)
 
 app.listen(PORT,()=>{console.log("Server listing on port 3000")})
