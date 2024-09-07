@@ -42,7 +42,7 @@ const generate = async (prompt) => {
 // generate(prompt);
 
 
-router.get('/chat_with_mira',jwtAuthMiddleWare, async(req,res)=>{
+router.post('/chat_with_mira',jwtAuthMiddleWare, async(req,res)=>{
     try{
         const userdata=req.jwtPayload.userData
         // console.log("userdata in chat:", userdata);
