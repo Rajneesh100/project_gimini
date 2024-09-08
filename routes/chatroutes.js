@@ -24,8 +24,8 @@ router.get('/chat_history',jwtAuthMiddleWare, async(req,res)=>{
         }
         const chat_history = await Message.find({
             $or: [
-                { sender: username },
-                { reciever: username }
+                { sender_id: userId },
+                { reciever_id: userId }
             ]
         });
         res.send({response:chat_history})
@@ -36,32 +36,6 @@ router.get('/chat_history',jwtAuthMiddleWare, async(req,res)=>{
 })
 
 
-
-router.get('/get_connection',jwtAuthMiddleWare, async(req,res)=>{
-    try{
-        const userdata=req.jwtPayload.userData
-        // console.log("userdata in chat:", userdata);
-        const username= userdata.username;
-        const userId=userdata.id;
-        const user =await Person.findById(userId)
-        if(!user) {
-            return res.status(401).json({error:"invalid user"})
-        }
-        // Get all unique users who have either sent or received a message involving the given username
-        const sentMessages = await Message.distinct('reciever', { sender: username });
-        const receivedMessages = await Message.distinct('sender', { reciever: username });
-
-        // Combine the two lists and remove duplicates
-        const uniqueUsers = [...new Set([...sentMessages, ...receivedMessages])];
-
-        res.send({ response: uniqueUsers });
-
-
-    }catch(err){
-        console.log(err);
-        res.status(500).json({error:"Internal Server Error in get_connection"})
-    }
-})
 
 
 router.post('/send', jwtAuthMiddleWare, async (req, res) => {
@@ -80,7 +54,9 @@ router.post('/send', jwtAuthMiddleWare, async (req, res) => {
         const recieved = {
             text: data.message_txt,
             sender: username,
+            sender_id: userId, 
             reciever: data.send_to,
+            reciever_id:data.send_to_id,
             timestamp: new Date()
         };
 
@@ -98,24 +74,25 @@ router.post('/send', jwtAuthMiddleWare, async (req, res) => {
 
 
 
-router.get('/get_my_chat_with', jwtAuthMiddleWare, async (req, res) => {
+
+router.post('/get_my_chat_with', jwtAuthMiddleWare, async (req, res) => {
     try {
 
         const userdata = req.jwtPayload.userData;
         // console.log("userdata in chat:", userdata);
         const username1 = userdata.username;
-        const userId = userdata.id;  // sender
+        const userId1 = userdata.id;  // sender
 
-        const user = await Person.findById(userId);
+        const user = await Person.findById(userId1);
         if (!user) {
             return res.status(401).json({ error: "You are an invalid user" });
         }
 
-        const username2 = req.body.selected_user;
+        const userId2 = req.body.selected_user_id;
         const chat_history = await Message.find({
             $or: [
-                { $and: [{ sender: username1 }, { reciever: username2 }] },
-                { $and: [{ sender: username2 }, { reciever: username1 }] }
+                { $and: [{ sender_id: userId1 }, { reciever_id: userId2 }] },
+                { $and: [{ sender_id: userId2 }, { reciever_id: userId1 }] }
             ]
         });
         
@@ -125,6 +102,70 @@ router.get('/get_my_chat_with', jwtAuthMiddleWare, async (req, res) => {
         res.status(500).json({ error: "Internal Server Error in get_my_chat_with" });
     }
 });
+
+
+
+
+
+
+
+
+
+router.get('/get_connection', jwtAuthMiddleWare, async (req, res) => {
+    try {
+        const userdata = req.jwtPayload.userData;
+        const userId = userdata.id;
+
+        const user = await Person.findById(userId);
+        if (!user) {
+            return res.status(401).json({ error: "Invalid user" });
+        }
+
+        // Get sent messages
+        const sentMessages = await Message.find({ sender_id: userId })
+            .select('reciever reciever_id')
+            .exec();
+
+        // Get received messages
+        const receivedMessages = await Message.find({ reciever_id: userId })
+            .select('sender sender_id')
+            .exec();
+
+        // Create an array of pairs (sender, sender_id) and (receiver, receiver_id)
+        const sentPairs = sentMessages.map(msg => ({
+            name: msg.reciever,
+            id: msg.reciever_id
+        }));
+
+        const receivedPairs = receivedMessages.map(msg => ({
+            name: msg.sender,
+            id: msg.sender_id
+        }));
+
+        // Combine and deduplicate pairs
+        const allPairs = [...sentPairs, ...receivedPairs];
+        const uniquePairs = Array.from(new Set(allPairs.map(pair => JSON.stringify(pair))))
+            .map(pair => JSON.parse(pair));
+
+        res.send({ response: uniquePairs });
+
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ error: "Internal Server Error in get_connection" });
+    }
+});
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

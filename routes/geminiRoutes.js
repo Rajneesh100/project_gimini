@@ -11,7 +11,7 @@ router.use(express.json());
 
 const Message= require('./../models/message')
 const Person= require('./../models/person')
-
+const geminiId='66dd5c0e98d06d854834d5ab';
 
 const loadFetch = async () => {
     const fetchModule = await import('node-fetch');
@@ -57,7 +57,9 @@ router.post('/chat_with_mira',jwtAuthMiddleWare, async(req,res)=>{
         const recieved ={
             text:prompt,
             sender:username,
+            sender_id: userId, // user id
             reciever:"gemini",
+            reciever_id: geminiId, // gemini id
             timestamp: new Date()
         }
         const recievedMessage = new Message(recieved)
@@ -68,7 +70,9 @@ router.post('/chat_with_mira',jwtAuthMiddleWare, async(req,res)=>{
         const  sent ={
             text:response,
             sender:"gemini",
+            sender_id: geminiId, // gemini id
             reciever:username,
+            reciever_id: userId, // user id
             timestamp: new Date()
         }
 

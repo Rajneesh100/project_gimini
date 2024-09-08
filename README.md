@@ -77,7 +77,7 @@ use Postman or any equivalnt tools to do crud operations
   now less go for chatting with ai
   
 * https://project-gimini-1.onrender.com/chat_with_mira
-  This is a get method.
+  This is a Post method.
   it uses jwt token to authenticate the user before sending query to ai model.
   first find `Bearer token` in Authorization section of postman and paste this token their.
   
@@ -193,10 +193,16 @@ use Postman or any equivalnt tools to do crud operations
   ```
   {
     "response": [
-        "gemini",
-        "niti"
+        {
+            "name": "niti",
+            "id": "66dd5ae598d06d854834d5a9"
+        },
+        {
+            "name": "rahul",
+            "id": "66dd5a5f98d06d854834d5a7"
+        }
     ]
-  }   
+  }
   ```
 
 
@@ -210,6 +216,7 @@ use Postman or any equivalnt tools to do crud operations
    ```
    {
         "send_to" :"niti",
+        "send_to_id":"hfwaieorhf4387r930302j"
         "message_txt":"let's meet"
    } 
 
@@ -221,27 +228,29 @@ use Postman or any equivalnt tools to do crud operations
    {
     "savedMessage": {
         "text": "let's meet",
-        "sender": "Rajni",
+        "sender": "gemini",
+        "sender_id": "66dd5c0e98d06d854834d5ab",
         "reciever": "niti",
-        "timestamp": "2024-09-01T20:55:01.526Z",
-        "_id": "66d4d4a5c3614f959c9ebeba",
+        "reciever_id": "66dd5ae598d06d854834d5a9",
+        "timestamp": "2024-09-08T10:13:33.769Z",
+        "_id": "66dd78cd46ac81b8fa5e47b2",
         "__v": 0
     },
     "status": "message saved in db"
-    }
+   }
 
    ```
 
 
 *  https://project-gimini-1.onrender.com/get_my_chat_with
    
-   This is a Get Method
+   This is a Post Method
    this api is specifically send the chat data of a pair it's purpose is to use when we will open a tab with any person we will get the past data with that person using this api (As of now it's very simple and we haven't considerd a large past history chats we will be sending to client later we will target this)
 
    this is the request body format :
    ```
    {
-   "selected_user":"niti"
+   "selected_user_id":"66dd5ae598d06d854834d5a9"
    }
    ```
 
