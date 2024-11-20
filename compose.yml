@@ -1,0 +1,6 @@
+services:
+  img:
+    build: .
+    container_name: project_gemini_with_compose_yml
+    ports:
+      - "3000:3000"
