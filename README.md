@@ -10,7 +10,8 @@ This is a totally only backend end points, as of now it has pretty basic Apis :
 /get_my_chat_with,
 
 ```
-frontend = https://github.com/Rajneesh100/frontend_of_project_gimini
+frontend of this project is here: https://github.com/Rajneesh100/frontend_of_project_gimini
+
 and as we are storing all conversation data so we will also incorporate a person to person and group conversation and also ai in group chats together
 
 use Postman or any equivalnt tools to do crud operations
